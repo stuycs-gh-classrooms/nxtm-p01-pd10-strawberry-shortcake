@@ -1,8 +1,8 @@
 # NeXtCS Project 01
 ### Period:  
-### Name0: YOUR NAME HERE
-### Name1: TEAMMATE NAME HERE (delete if working solo)
-#### Selected Game: YOUR GAME HERE
+### Name0: Weifen Chen
+### Name1: Andrew Zhao
+#### Selected Game: Space Invaders
 ---
 
 ### How To Play
