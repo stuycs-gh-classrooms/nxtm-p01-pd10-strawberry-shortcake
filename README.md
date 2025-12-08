@@ -135,11 +135,11 @@ CLASS main
     - resets the classes and all variables, and calls startGame() again.
   
 - class Player
-
+ 
 - Instance variables:
- - PVector center; center of the Player
- - int moveSpeed; player movespeed]
- - int shootSpeed; shoot speed of the player
+	- PVector center; center of the Player
+ 	- int moveSpeed; player movespeed
+  	- int shootSpeed; shoot speed of the player
    
 - Constructor
 	- Player(PVector c, int speed)
@@ -181,7 +181,7 @@ CLASS main
 - Class Barrier // banana slices?
 
 - Instance variables:
-	 - Pvector center; //center of the barrier
+	- Pvector center; //center of the barrier
 	- int stage; // the stage of destruction the barrier is at.
 
 - Constructor Barrier(PVector c, int s)
