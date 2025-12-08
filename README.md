@@ -68,6 +68,7 @@ Mouse Control: N/A for now
 - Mouse movement:
 - Mouse pressed:
 
+***
 
 ### Classes
 What classes will you be creating for this project? Include the instance variables and methods that you believe you will need. You will be required to create at least 2 different classes. If you are going to use classes similar to those we've made for previous assignments, you will have to add new features to them.
@@ -140,20 +141,25 @@ CLASS main
     - resets the classes and all variables, and calls startGame() again.
 
 CLASS aliens
-- Instance variables:
-  - LIST INSTANCE VARS HERE
+- LIST INSTANCE VARS HERE
 - METHODS
-  - LIST METHODS HERE
+
  
 CLASS shooter
+- LIST INSTANCE VARS HERE
+- METHODS
+
 
 CLASS display
+- LIST INSTANCE VARS HERE
+- METHODS
 
 CLASS barrier
-- Instance variables:
-  - 
-
+- LIST INSTANCE VARS HERE
 - METHODS
-  - LIST METHODS HERE
+
 
 CLASS projectile
+- LIST INSTANCE VARS HERE
+- METHODS
+
