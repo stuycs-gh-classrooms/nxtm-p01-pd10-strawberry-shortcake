@@ -124,8 +124,9 @@ CLASS main
     - uses a for loop to create bullets stored in the bullets array.
   - void makeAlienBullet(projectile [] b, alien [][] g)
     - uses a for loop to create alien bullets stored in the alienBullets array.
-  - void processBulletCollisions (projectile [] b, alien [][] g)
+  - void processCollisions (projectile [] b, alien [][] g)
     - uses for loops to check if a bullet has overlapped with an alien. If so, the alien that is hit dies.
+    - uses for loops to check if a alien is touching the ground. If so, then the game is over.
   - void processAlienBulletCollisions(projectile [] b, shooter p, barrier [] s)
     - uses for loops to check if a bullet has overlapped with a player or a barrier. If so, the barrier loses hp or the player dies.
   - void GameOver(lives)
