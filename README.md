@@ -210,8 +210,7 @@ Constructor
 METHODS
   -void move() 
 		- moves the bullet by changing its PVector.y value according to ySpeed
-	
-  -  boolean collisionCheck (Barrier other, Alien other)
+	-boolean collisionCheck (Barrier other, Alien other)
 	  	- Checks for collisions with barriers and the aliens.
 	- void display(PVector h)
 		- displays the bullet on the screen according to PVector head values.
