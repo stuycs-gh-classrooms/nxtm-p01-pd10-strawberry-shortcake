@@ -37,7 +37,10 @@ What are some features that are not essential to the program, but you would like
 
 - custom shooters
 - upgrades
-- multiplayer, player 1 controls a tank with WASD and spacebar, player 2 controls a tank with arrow keys and enter/return key.
+- multiplayer, player 1 controls a tank with WASD and spacebar, player 2 controls a tank with arrow keys and enter/return key
+- cake background
+- sound effects
+- background music (we don't know how to add this) 
 
 ### Array Usage
 How will you be using arrays in this project?
