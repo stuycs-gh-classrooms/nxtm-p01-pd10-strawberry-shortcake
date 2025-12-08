@@ -37,7 +37,7 @@ What are some features that are not essential to the program, but you would like
 
 - custom shooters
 - upgrades
-- multiplayer, player 1 controls a tank with WASD and spacebar, player 2 controls a tank with arrow keys and mouse.
+- multiplayer, player 1 controls a tank with WASD and spacebar, player 2 controls a tank with arrow keys and enter/return key.
 
 ### Array Usage
 How will you be using arrays in this project?
@@ -55,7 +55,7 @@ How will you be using arrays in this project?
 How will your program be controlled? List all keyboard commands and mouse interactions.
 
 Keyboard Commands:
-- enter, space to shoot
+- enter, spacebar to shoot
 - arrow keys & WASD to move
 
 Mouse Control: N/A for now
