@@ -49,7 +49,7 @@ Suggestions:
 
 changes made:
 
-    the bullets are now in the same class of "bullet" and the player and alien bullets will be seperated through a value determining whether the projectile is an alien or player bullet like int bulletVal.
+we plan to make both the Player and Alien bullets in the same class. The player and alien bullets will be separated by a value determining whether the projectile is an alien or player bullet like int bulletVal.
 
     
 
