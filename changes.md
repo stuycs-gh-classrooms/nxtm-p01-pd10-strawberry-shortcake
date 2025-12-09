@@ -25,3 +25,31 @@ We are planning on implementing upgrades by treating an upgrade as a boolean val
 -Answers to suggestions:
     The isDead function will be in the gameOver function! sorry if that was not clear.
     I understand the function names are long, we may shorten them but for now I like them because its very hard to get confused and its easy to remember the function names because they do exactly what the title is.
+
+-------------------------
+Jed Sloan & Aarushi
+
+Cool things:
+
+    Nice job specifying return type and parameters of methods.
+    Nice specificity of global variables.
+
+Clarifying Qs:
+
+    Why are we creating seperate methods for player and alien bullets?
+    Will projectile be an encapsulated or public array?
+
+Suggestions:
+
+    I would like to see a flowchart implemented.
+    Void destruction algorithm should be less vague.
+
+---------------------
+
+changes made:
+
+    the bullets are now in the same class of "bullet" and the player and alien bullets will be seperated through a value determining whether the projectile is an alien or player bullet.
+
+    projectile will be a public array
+
+    
