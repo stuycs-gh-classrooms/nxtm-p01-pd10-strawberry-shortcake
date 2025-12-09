@@ -27,7 +27,8 @@ We are planning on implementing upgrades by treating an upgrade as a boolean val
     I understand the function names are long, we may shorten them but for now I like them because its very hard to get confused and its easy to remember the function names because they do exactly what the title is.
 
 -------------------------
-Jed Sloan & Aarushi
+Jed Sloan & Mohammed
+
 
 Cool things:
 
