@@ -48,8 +48,8 @@ Suggestions:
 
 changes made:
 
-    the bullets are now in the same class of "bullet" and the player and alien bullets will be seperated through a value determining whether the projectile is an alien or player bullet.
+    the bullets are now in the same class of "bullet" and the player and alien bullets will be seperated through a value determining whether the projectile is an alien or player bullet like int bulletVal.
 
-    projectile will be a public array
+    
 
     
