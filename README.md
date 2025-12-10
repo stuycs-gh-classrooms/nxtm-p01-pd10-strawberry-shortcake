@@ -24,6 +24,9 @@ The first phase will be to work on this document.
 
 #### Selected Project: Space Invaders
 
+#### Link to Planning Doc:
+https://docs.google.com/document/d/1zX06kTUGRnORaY0bV2h_JRLYoX1zmd-EoINuLdruGiU/edit?usp=sharing
+
 ### Necessary Features
 What are the core features that your program should have? These should be things that __must__ be implemented in order to make the program useable/playable, not extra features that could be added to make the program more interesting/fun.
 
@@ -37,7 +40,10 @@ What are some features that are not essential to the program, but you would like
 
 - custom shooters
 - upgrades
-- multiplayer, player 1 controls a tank with WASD and spacebar, player 2 controls a tank with arrow keys and mouse.
+- multiplayer, player 1 controls a tank with WASD and spacebar, player 2 controls a tank with arrow keys and enter/return key
+- cake background
+- sound effects
+- background music (we don't know how to add this) 
 
 ### Array Usage
 How will you be using arrays in this project?
@@ -55,13 +61,14 @@ How will you be using arrays in this project?
 How will your program be controlled? List all keyboard commands and mouse interactions.
 
 Keyboard Commands:
-- enter, space to shoot
+- enter, spacebar to shoot
 - arrow keys & WASD to move
 
 Mouse Control: N/A for now
 - Mouse movement:
 - Mouse pressed:
 
+***
 
 ### Classes
 What classes will you be creating for this project? Include the instance variables and methods that you believe you will need. You will be required to create at least 2 different classes. If you are going to use classes similar to those we've made for previous assignments, you will have to add new features to them.
@@ -133,6 +140,7 @@ CLASS main
     - If lives = 0 then clears everything and creates a death screen displaying the final score aswell as some text that says "Press R to try again!".
   - void reset()
     - resets the classes and all variables, and calls startGame() again.
+<<<<<<< HEAD
   
 - class Player
  
@@ -235,3 +243,29 @@ CLASS main
 - void display(PVector h)
 	- displays the bullet on the screen according to PVector head values.
 
+=======
+
+CLASS aliens
+- LIST INSTANCE VARS HERE
+- METHODS
+
+ 
+CLASS shooter
+- LIST INSTANCE VARS HERE
+- METHODS
+
+
+CLASS display
+- LIST INSTANCE VARS HERE
+- METHODS
+
+CLASS barrier
+- LIST INSTANCE VARS HERE
+- METHODS
+
+
+CLASS projectile
+- LIST INSTANCE VARS HERE
+- METHODS
+
+>>>>>>> 493de837517fd7f21a63fe4b3d7d6b7a38ace396
