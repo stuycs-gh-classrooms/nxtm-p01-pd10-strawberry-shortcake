@@ -43,8 +43,6 @@ class Bullet {
     }
   }
   
-  
-  
   boolean bulletHits (int x, int y, int w, int h) { // checks if the bullet hitbox is inside of the hitbox of another class. Inputs are the hitbox upper-left corner coords & dimensions of the other class.
     return head.x < x + w && // checks if the head
            head.x + bulletWidth > x &&
