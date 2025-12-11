@@ -14,7 +14,7 @@ class Bullet {
     bulletHeight = 5;
     bulletWidth = 2;
   }
-  
+/* 
   boolean collisionCheck(Player p, Alien a, Barrier b) {
     if (bulletType == 0) { // alienBullet collision detection
       if (bulletHits(p.x,p.y,p.w,p.h) == true) {
@@ -42,7 +42,7 @@ class Bullet {
       return false;
     }
   }
-  
+*/
   boolean bulletHits (int x, int y, int w, int h) { // checks if the bullet hitbox is inside of the hitbox of another class. Inputs are the hitbox upper-left corner coords & dimensions of the other class.
     return head.x < x + w && // checks if the head
            head.x + bulletWidth > x &&
@@ -56,8 +56,14 @@ class Bullet {
   }
   
   void display () {
+    if (bulletType == 1) {
     fill(randomColor());
     rect(head.x,head.y, bulletWidth, bulletHeight);    
+    }
+    if (bulletType == 0) {
+      fill(255);
+      rect(head.x,head.y,bulletWidth,bulletHeight);
+    }
   }
   
   void move() { //move y-speed number of pixels up or down depending on whether its an alien or a player bullet.

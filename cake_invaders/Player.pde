@@ -6,17 +6,27 @@ class Player {
   PVector head; // the top center of the player hitbox where bullets generate.
   
   Player(PVector h) {
-    this.moveSpeed = 2;
+    this.moveSpeed = 10;
     this.position = new PVector(h.x,h.y);
     playerHeight = 50;
     playerWidth = 50;
+    position.x = int((width / 2) - (playerWidth / 2));
+    position.y = int((450 - playerHeight));
   }
-  
+/*  
   boolean collisionCheck(Bullet b, Barrier s) {
-   if 
+    if (playerHit(s.x,s.y,s.w,s.h) == true) {
+      return true;
+    }
+    if (playerHit(b.head.x,b.head.y,b.bulletWidth,b.bulletHeight) == true) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
-  
-  boolean PlayerHit (int x, int y, int w, int h) { //checks if the player is colliding with anything.
+  */
+  boolean playerHit (int x, int y, int w, int h) { //checks if the player is colliding with anything.
     return position.x < x + w &&
            position.x + playerWidth > x &&
            position.y < y + h &&
@@ -32,7 +42,7 @@ class Player {
     if (direction == 0) { //left
       position.x = position.x - moveSpeed;    
   }
-    if (direction == 1) {
+    if (direction == 1) { //right
       position.x = position.x + moveSpeed;
     }
   }
