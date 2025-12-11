@@ -1,3 +1,12 @@
+
+12/11/25
+changes made:
+Updated Main class variables and methods
+
+We made both the Player and Alien bullets in the same class. The player and alien bullets will be separated by a value determining whether the projectile is an alien or player bullet like int bulletVal.
+
+---------------------
+
 Feedback from MST
 
 Cool things:
@@ -45,12 +54,3 @@ Suggestions:
     I would like to see a flowchart implemented.
     Void destruction algorithm should be less vague.
 
----------------------
-
-changes made:
-
-we plan to make both the Player and Alien bullets in the same class. The player and alien bullets will be separated by a value determining whether the projectile is an alien or player bullet like int bulletVal.
-
-    
-
-    
