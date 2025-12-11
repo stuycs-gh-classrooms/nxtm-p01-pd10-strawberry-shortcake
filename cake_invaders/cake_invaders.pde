@@ -19,6 +19,7 @@ Bullet[] alienBullets = new Bullet[100];
   boolean isDead;
   boolean roundOver;
   boolean gameOver;
+  
   void setup() {
     startGame();
     size(500,500);
@@ -27,7 +28,8 @@ Bullet[] alienBullets = new Bullet[100];
   void draw() {
     if (gameOver == false) {
       if (roundOver == false) {
-        genBackground();
+        //genStartBackground();
+        genGameBackground();
         tank.display();
       if (playerBullets != null) {
       for (int i = 0; i < playerBullets.length; i++) {
@@ -42,7 +44,7 @@ Bullet[] alienBullets = new Bullet[100];
       }
     } 
   void keyPressed() {
-    if(key == 'r') {
+    if (key == 'r') {
       startGame();
     }
      if ((key == ' ' || keyCode == ENTER) && bulletCoolDown == 0) {
@@ -57,7 +59,11 @@ Bullet[] alienBullets = new Bullet[100];
   }
   
   void gameRestart() {
-    //calls startGame() 
+    if (gameOver == true) {
+      genLostBackground();
+      //wait 3s
+      startGame();
+    }
   }
   
   void startGame() {
@@ -71,7 +77,9 @@ Bullet[] alienBullets = new Bullet[100];
     roundOver = false;
     gameOver = false;
     
-    genBackground();
+    genStartBackground();
+    genGameBackground();
+    
     makePlayer(tank);
   }
   
@@ -93,11 +101,22 @@ Bullet[] alienBullets = new Bullet[100];
     
   }
   
-  void genBackground () {
+  void genGameBackground() {
     background(255);
     fill(255,0,0);
     rect(0,450,width,height);
-    
+  }
+  
+  void genStartBackground() {
+    background(255);
+    fill(255,0,0);
+    rect(0,450,width,height);
+  }
+  
+  void genLostBackground() {
+    background(255);
+    fill(255,0,0);
+    rect(0,450,width,height);
   }
   
   int findAvailableIndex(Bullet[] b) {
