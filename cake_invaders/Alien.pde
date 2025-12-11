@@ -44,6 +44,5 @@ class Alien {
       position.x = position.x + moveSpeed;
     }
   }
- 
-    
+  
 }

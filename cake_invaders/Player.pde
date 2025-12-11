@@ -4,6 +4,7 @@ class Player {
   int playerHeight; // height of the player hitbox
   int playerWidth; // width of the player hitbox
   PVector head; // the top center of the player hitbox where bullets generate.
+
   
   Player(PVector h) {
     this.moveSpeed = 10;

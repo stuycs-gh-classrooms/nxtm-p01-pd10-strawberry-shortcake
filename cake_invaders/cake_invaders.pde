@@ -14,7 +14,7 @@ Bullet[] alienBullets = new Bullet[100];
   
   int playerMoveSpeed;
   
-  float bulletCoolDown; //bullet cooldown in frames.
+  float bulletCoolDown; //bullet cooldown in seconds
   
   boolean isDead;
   boolean roundOver;
@@ -22,6 +22,7 @@ Bullet[] alienBullets = new Bullet[100];
   void setup() {
     startGame();
     size(500,500);
+    frameRate(60);
   }
   
   void draw() {
@@ -29,13 +30,16 @@ Bullet[] alienBullets = new Bullet[100];
       if (roundOver == false) {
         genBackground();
         tank.display();
-      if (playerBullets != null) {
-      for (int i = 0; i < playerBullets.length; i++) {
+      if (playerBullets != null) {  
+        for (int i = 0; i < 100; i++){
         if (playerBullets[i] != null && playerBullets[i].alive) {
           playerBullets[i].move();
           playerBullets[i].display();
+       
         }
-      }
+        bulletDespawner();
+        }
+     
       }
       }
             
@@ -46,6 +50,7 @@ Bullet[] alienBullets = new Bullet[100];
       startGame();
     }
      if ((key == ' ' || keyCode == ENTER) && bulletCoolDown == 0) {
+       bulletCoolDown = 0;
        makePlayerBullet();
      }
     if (keyCode == LEFT) {
@@ -72,10 +77,10 @@ Bullet[] alienBullets = new Bullet[100];
     gameOver = false;
     
     genBackground();
-    makePlayer(tank);
+    makePlayer();
   }
   
-  void makePlayer(Player p) {
+  void makePlayer() {
     for (int i = 0; i < 2; i++) {
     tank = new Player(new PVector(0,0));
     }
@@ -86,7 +91,8 @@ Bullet[] alienBullets = new Bullet[100];
     if (index != -1) {
       playerBullets[index] = new Bullet(new PVector(tank.position.x + (tank.playerWidth / 2), tank.position.y), 1);
     }
-  }
+    }
+  
   
   
   void outOfBounds() {
@@ -96,8 +102,7 @@ Bullet[] alienBullets = new Bullet[100];
   void genBackground () {
     background(255);
     fill(255,0,0);
-    rect(0,450,width,height);
-    
+    rect(0,450,width,height);    
   }
   
   int findAvailableIndex(Bullet[] b) {
@@ -108,3 +113,28 @@ Bullet[] alienBullets = new Bullet[100];
   }
   return -1; // if there is something return -1
 }//findAvailableIndex
+
+void bulletCooldown () {
+  bulletCoolDown--;
+  
+}
+
+void bulletDespawner() { //despawns the bullet once it goes offscreen 
+  if (findAvailableIndex(playerBullets) == -1) {
+  for (int i = 0; i < 100; i++) {
+  if (playerBullets[i].head.y < 0) {
+    playerBullets[i] = null;
+    println(i);
+  }
+  }
+  }
+  if (findAvailableIndex(alienBullets) == -1) {
+  for (int i = 0; i < 100; i++) {
+  if (alienBullets[i].head.y > height) { 
+    alienBullets[i] = null;
+    println(i);
+  }
+  }
+  }
+  
+  }

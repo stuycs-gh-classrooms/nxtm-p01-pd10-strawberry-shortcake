@@ -5,14 +5,16 @@ class Bullet {
   int bulletHeight; // how long the bullet is.
   int bulletWidth; // how wide the bullet is.
   boolean alive; // set to false once the bullet hits something or goes offscreen.
+  int rand = int(random(0,255));
+  color bColor = randomColor();
   
   Bullet(PVector h, int type) {
     this.head = new PVector(h.x,h.y);
     this.bulletType = type;
     bulletSpeed = 10;
     alive = true;
-    bulletHeight = 5;
-    bulletWidth = 2;
+    bulletHeight = 20;
+    bulletWidth = 4;
   }
 /* 
   boolean collisionCheck(Player p, Alien a, Barrier b) {
@@ -51,13 +53,13 @@ class Bullet {
   }
   
   color randomColor () {
-    int rand = int(random(0,255));
     return (color(rand,rand,rand));    
   }
   
   void display () {
     if (bulletType == 1) {
-    fill(randomColor());
+    fill(bColor);
+    noStroke();
     rect(head.x,head.y, bulletWidth, bulletHeight);    
     }
     if (bulletType == 0) {
