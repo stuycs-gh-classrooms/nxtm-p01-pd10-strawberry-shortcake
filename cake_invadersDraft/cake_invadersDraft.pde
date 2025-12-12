@@ -16,7 +16,8 @@ int aRows;
 int aCols;
 int alienMoveInterval;
 int alienMoveTimer;
-  
+int padding;
+
 int playerMoveSpeed;
   
 int cooldownFrames; //bullet cooldown in seconds
@@ -28,16 +29,6 @@ boolean gameOver;
 void setup() {
   size(500,500);
   frameRate(60);
-  playerBullets = new Bullet[100];
-  alienBullets = new Bullet[100];
-  alienHeight = 30;
-  alienWidth = 30;
-  aRows = 5;
-  aCols = 11;
-  alienGrid = new Alien[aRows][aCols];
-  alienDirection = 1;
-  alienMoveInterval = 60;
-  alienMoveTimer = 0;
   startGame();
   }
   
@@ -111,8 +102,21 @@ void gameRestart() {
     roundOver = false;
     gameOver = false;
     
+    playerBullets = new Bullet[100];
+    alienBullets = new Bullet[100];
+  
+    alienHeight = 30;
+    alienWidth = 30;
+    aRows = 4;
+    aCols = 10;
+    alienGrid = new Alien[aRows][aCols];
+    alienDirection = 1;
+    alienMoveInterval = 60;
+    alienMoveTimer = 0;
+  
     genBackground();
     makePlayer();
+    padding = 50;
     makeAlienGrid(alienGrid);
   }
   
@@ -130,8 +134,8 @@ void makePlayerBullet() {
     }
   
 void makeAlienGrid(Alien[][] g) {
-  float startX = 0;     
-  float startY = 0;
+  float startX = padding;     
+  float startY = padding;
 
   for (int r = 0; r < g.length; r++) {
     for (int c = 0; c < g[0].length; c++) {
@@ -196,11 +200,12 @@ void moveAlienGrid() {
       }
     }
   }
+
   
   // Check if the grid hits screen edges
   boolean hitEdge = false;
-  if (rightMost >= width && alienDirection == 1) hitEdge = true;
-  if (leftMost <= 0 && alienDirection == -1) hitEdge = true;
+  if (rightMost >= width - padding && alienDirection == 1) hitEdge = true;
+  if (leftMost <= padding && alienDirection == -1) hitEdge = true;
   
   // Move aliens
   for (int r = 0; r < alienGrid.length; r++) {
@@ -213,8 +218,8 @@ void moveAlienGrid() {
         }
       }
     }
-  }
-  
+  } 
+    
   // If hit edge, reverse direction
   if (hitEdge) alienDirection *= -1;
 }
