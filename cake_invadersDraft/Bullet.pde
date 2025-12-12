@@ -5,55 +5,40 @@ class Bullet {
   int bulletHeight; // how long the bullet is.
   int bulletWidth; // how wide the bullet is.
   boolean alive; // set to false once the bullet hits something or goes offscreen.
-  int rand = int(random(0,255));
-  color bColor = randomColor();
+  color bColor; // color of the bullet
   
   Bullet(PVector h, int type) {
     this.head = new PVector(h.x,h.y);
     this.bulletType = type;
     bulletSpeed = 10;
     alive = true;
-    bulletHeight = 20;
+    bulletHeight = 10;
     bulletWidth = 4;
+    bColor = randomColor();
   }
-/* 
-  boolean collisionCheck(Player p, Alien a, Barrier b) {
-    if (bulletType == 0) { // alienBullet collision detection
-      if (bulletHits(p.x,p.y,p.w,p.h) == true) {
-        return true;
-      }
-      if (bulletHits(b.x,b.y,b.w,b.h) == true) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else if (bulletType == 1) { // playerBullet collision detection
-      if (bulletHits(a.x,a.y,a.w,a.h) == true) {
-        return true;
-      }
-      if (bulletHits(b.x,b.y,b.w,b.h) == true) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
-      return false;
-    }
+
+  boolean hitsPlayer(Player p) {
+  return bulletHits(int(p.position.x), int(p.position.y), p.playerWidth, p.playerHeight);
   }
-*/
+
+  boolean hitsAlien(Alien a) {
+  return bulletHits(int(a.position.x), int(a.position.y), a.alienWidth, a.alienHeight);
+  }
+/*
+  boolean hitsBarrier(Barrier b) {
+  return bulletHits(b.x, b.y, b.w, b.h);
+  }
+  */
   boolean bulletHits (int x, int y, int w, int h) { // checks if the bullet hitbox is inside of the hitbox of another class. Inputs are the hitbox upper-left corner coords & dimensions of the other class.
-    return head.x < x + w && // checks if the head
-           head.x + bulletWidth > x &&
-           head.y < y + h &&
-           head.y + bulletHeight > y;
+    return head.x < x + w && head.x + bulletWidth > x && head.y < y + h && head.y + bulletHeight > y; 
+  }
+  
+  int rand () {
+    return int(random(0,255));
   }
   
   color randomColor () {
-    return (color(rand,rand,rand));    
+    return (color(rand(),rand(),rand()));    
   }
   
   void display () {
@@ -74,7 +59,7 @@ class Bullet {
   }
   if (bulletType == 0) { // alienBullet
     head.y = head.y + bulletSpeed;
-    //comment
+
   }
   }
   

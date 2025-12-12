@@ -3,8 +3,7 @@ class Player {
   int moveSpeed; // how many pixels the player moves every time move is called.
   int playerHeight; // height of the player hitbox
   int playerWidth; // width of the player hitbox
-  PVector head; // the top center of the player hitbox where bullets generate.
-
+  
   
   Player(PVector h) {
     this.moveSpeed = 10;
@@ -36,7 +35,8 @@ class Player {
   
   void display() {
     fill(0);
-    rect(position.x,position.y,playerWidth,playerHeight);    
+    rect(position.x,position.y + playerHeight/2,playerWidth,playerHeight / 2);  
+    rect(position.x + (playerWidth / 2) - 3, position.y + 5, 6, playerHeight / 2);
   }
   
   void move(int direction) { 
@@ -46,7 +46,5 @@ class Player {
     if (direction == 1) { //right
       position.x = position.x + moveSpeed;
     }
-  }
- 
-    
+  }    
 }
