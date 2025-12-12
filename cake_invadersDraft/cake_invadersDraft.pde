@@ -30,10 +30,10 @@ void setup() {
   frameRate(60);
   playerBullets = new Bullet[100];
   alienBullets = new Bullet[100];
-  alienHeight = 10;
-  alienWidth = 10;
-  aRows = 10;
-  aCols = 20;
+  alienHeight = 30;
+  alienWidth = 30;
+  aRows = 5;
+  aCols = 11;
   alienGrid = new Alien[aRows][aCols];
   alienDirection = 1;
   alienMoveInterval = 60;
@@ -130,14 +130,14 @@ void makePlayerBullet() {
     }
   
 void makeAlienGrid(Alien[][] g) {
-  float startX = (width/3);     
-  float startY = alienHeight/2;
+  float startX = 0;     
+  float startY = 0;
 
   for (int r = 0; r < g.length; r++) {
     for (int c = 0; c < g[0].length; c++) {
 
-      float x = startX + c * alienWidth; 
-      float y = startY + r * alienHeight;
+      float x = startX + c * (alienWidth + 5); 
+      float y = startY + r * (alienHeight + 1);
 
       g[r][c] = new Alien(new PVector(x, y), alienWidth, alienHeight);    
     }
@@ -205,12 +205,11 @@ void moveAlienGrid() {
   // Move aliens
   for (int r = 0; r < alienGrid.length; r++) {
     for (int c = 0; c < alienGrid[0].length; c++) {
-      Alien a = alienGrid[r][c];
-      if (a != null && a.alive) {
+      if (!(alienGrid[r][c] == null) && alienGrid[r][c].alive) {
         if (hitEdge) {
-          a.position.y = a.position.y + alienHeight; // drop down
+          alienGrid[r][c].position.y = alienGrid[r][c].position.y + alienHeight; // drop down
         } else {
-          a.position.x += alienDirection * alienWidth; // move left/right
+          alienGrid[r][c].position.x += alienDirection * alienWidth; // move left/right
         }
       }
     }

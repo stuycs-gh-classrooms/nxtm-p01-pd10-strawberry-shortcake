@@ -22,6 +22,7 @@ class Alien {
   if(alive) {
     fill(0);
     rect(position.x,position.y,alienWidth,alienHeight);  
+    
   }
   }
   
