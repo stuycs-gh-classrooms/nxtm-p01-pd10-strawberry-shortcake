@@ -160,7 +160,7 @@ int findAvailableIndex(Bullet[] b) { // finds the first available index.
       return i;
     }
   }
-  return -1; // if there is something return -1
+  return -1; // if there is not something return -1
 }
 
 void bulletDespawner() { //despawns the bullet once it goes offscreen 
@@ -187,7 +187,7 @@ void moveAlienGrid() {
   if (alienGrid == null) {
     return;
   }
-  //takes the right and left most points to set the x values of the alien.
+
   float leftMost = width;
   float rightMost = 0;
   
