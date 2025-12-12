@@ -74,6 +74,7 @@ class Bullet {
   }
   if (bulletType == 0) { // alienBullet
     head.y = head.y + bulletSpeed;
+    //comment
   }
   }
   
