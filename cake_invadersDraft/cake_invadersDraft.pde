@@ -20,6 +20,8 @@ int padding;
 int playerMoveSpeed;
 int invincibilityFrames;
 int invincibilityTimer;
+int roundOverTimer;
+int roundOverFrames;
   
 int cooldownFrames; //bullet cooldown in seconds
 int cooldownTimer; //tracks how long till the next shot
@@ -37,9 +39,18 @@ void setup() {
   }
   
 void draw() {
-  if (started == true && gameOver == false && roundOver == false) {
+  if (started == true && gameOver == false) {
+   if (roundOverTimer > 0) {
+     roundOverTimer--;     
+  }
+  else {
+    roundOver = false;
+    isDead = false;
+  }
+  }
+  if (started == true && gameOver == false && roundOver == false && isDead == false) {
         genGameBackground();
-        tank.display();
+        tank.display(isDead);
         if (invincibilityTimer > 0) {
           invincibilityTimer--;
         }
@@ -88,6 +99,7 @@ void draw() {
          
 checkCollisions();
 roundWon();
+roundLost();
       }
     } 
     
@@ -131,7 +143,7 @@ void gameRestart() {
     roundNum = 1;
     livesNum = 3;
     cooldownTimer = 0;
-    cooldownFrames = 20;
+    cooldownFrames = 15;
    
    //set boolean roundOver and gameOver to false
     isDead = false;
@@ -153,6 +165,8 @@ void gameRestart() {
     alienShootFrames = 100;
     invincibilityTimer = 0;
     invincibilityFrames = 50;
+    roundOverTimer = 0;
+    roundOverFrames = 100;
   
     genGameBackground();
     makePlayer();
@@ -205,8 +219,6 @@ void makeAlienGrid(Alien[][] g) {
   }
   
 void genGameBackground() {
-    // 1. Background color
-    background(255);
     chocolateCake();
     fill(0);
     textSize(20);
@@ -226,7 +238,6 @@ void genStartBackground() {
   }
   
 void genLostBackground() {
-    background(255);
     fill(255,0,0);
     strawbShortcake();
     textSize(30);
@@ -341,9 +352,9 @@ void checkCollisions() {
       if (tank.playerHit(int(alienBullets[i].head.x), int(alienBullets[i].head.y), alienBullets[i].bulletWidth, alienBullets[i].bulletHeight) && invincibilityTimer == 0) {
         alienBullets[i].alive = false; // destroy bullet
         livesNum--; // decrease player life
+        isDead = true;
         invincibilityTimer = invincibilityFrames;
         if (livesNum <= 0) {
-          isDead = true;
           gameOver = true;
           gameOver();
         }
@@ -407,10 +418,33 @@ void roundWon() {
   roundOver = true;
   roundNum++;
   livesNum++;
-  text("Round " + roundNum, width / 5, 180);
+  textSize(80);
+  fill(0);
+  text("Round " + roundNum, width / 5, 240);
+  roundOverTimer = roundOverFrames;
   makeAlienGrid(alienGrid);
-  roundOver = false;  
+  tank.position.x = int((width / 2) - (tank.playerWidth / 2));
+  tank.position.y = 450 - tank.playerHeight;
 }
+
+void roundLost() {
+  if (isDead == true && gameOver == false) {
+    roundOverTimer = roundOverFrames;
+    genGameBackground();
+    for (int r = 0; r < alienGrid.length; r++) {
+          for (int c = 0; c < alienGrid[0].length; c++) {
+            if (alienGrid[r][c] != null && alienGrid[r][c].alive) {
+               alienGrid[r][c].display();
+            }
+          }
+    }
+    tank.display(isDead);
+    tank.position.x = int((width / 2) - (tank.playerWidth / 2));
+    tank.position.y = 450 - tank.playerHeight;
+  }
+  else return;
+}
+    
 
 void godMode() {
   livesNum = 1000;

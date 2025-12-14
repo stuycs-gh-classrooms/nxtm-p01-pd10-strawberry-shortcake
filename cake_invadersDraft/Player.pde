@@ -13,19 +13,7 @@ class Player {
     position.x = int((width / 2) - (playerWidth / 2));
     position.y = int((450 - playerHeight));
   }
-/*  
-  boolean collisionCheck(Bullet b, Barrier s) {
-    if (playerHit(s.x,s.y,s.w,s.h) == true) {
-      return true;
-    }
-    if (playerHit(b.head.x,b.head.y,b.bulletWidth,b.bulletHeight) == true) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-  */
+  
   boolean playerHit (int x, int y, int w, int h) { //checks if the player is colliding with anything.
     return position.x < x + w &&
            position.x + playerWidth > x &&
@@ -33,8 +21,8 @@ class Player {
            position.y + playerHeight > y;
   }
   
-  void display() {
-   
+  void display(boolean dead) {
+   if (dead == false) {
     fill(255, 250, 250);
     noStroke();
     rect(position.x, position.y, playerWidth, playerHeight, 5);
@@ -42,6 +30,17 @@ class Player {
     ellipse(position.x + playerWidth/2, position.y - 8, 10, 15);
     fill(255, 215, 0); 
     ellipse(position.x + playerWidth/2, position.y - 8, 6, 10);
+   }
+   if (dead == true) {
+    fill(255, 250, 250);
+    noStroke();
+    fill(0);
+    rect(position.x + (playerWidth / 2) - 3, position.y, 6, playerHeight);
+    fill(255);
+    rect(position.x, position.y + (playerHeight / 2), playerWidth, playerHeight / 2,5);
+    triangle(position.x, position.y + (playerHeight / 2) + 5, position.x + playerWidth, position.y + (playerHeight / 4), position.x + playerWidth, position.y + (playerHeight / 2) + 5);
+    fill(0);
+   }
     }
   
   
