@@ -27,7 +27,7 @@ int cooldownFrames; //bullet cooldown in seconds
 int cooldownTimer; //tracks how long till the next shot
 int alienShootFrames; //the interval at which an alien is able to shoot.
 int alienShootTimer; //the time that is left between each alien shot.
-  
+
 boolean isDead; //is the player dead?
 boolean roundOver; //is the round over?
 boolean gameOver; // is the game over?
@@ -92,7 +92,9 @@ void draw() {
         for (int r = 0; r < alienGrid.length; r++) {
           for (int c = 0; c < alienGrid[0].length; c++) {
             if (alienGrid[r][c] != null && alienGrid[r][c].alive) {
+               alienGrid[r][c].update();
                alienGrid[r][c].display();
+               
                
       }
     }
@@ -331,16 +333,22 @@ void checkCollisions() {
       for (int r = 0; r < alienGrid.length; r++) { // rows
         for (int c = 0; c < alienGrid[0].length; c++) { // columns
           if (alienGrid[r][c] != null && alienGrid[r][c].alive) { // checks if the alien in that index is alive and not null
-            if (alienGrid[r][c].alienHit(int(playerBullets[i].head.x), int(playerBullets[i].head.y), playerBullets[i].bulletWidth, playerBullets[i].bulletHeight)) { // checks if it is hitting a playerBullet
+            if (alienGrid[r][c].aITimer == 0 && alienGrid[r][c].chocolateCovered == false && alienGrid[r][c].alienHit(int(playerBullets[i].head.x), int(playerBullets[i].head.y), playerBullets[i].bulletWidth, playerBullets[i].bulletHeight)) { // checks if it is hitting a playerBullet
               alienGrid[r][c].alive = false;  // kill alien
               playerBullets[i].alive = false; // kill bullet
-              score += 30; // score goes up!
+              score += 30; // score goes up!             
           }
-        }
+          //if the bullet hits a chocolate shielded strawberry
+          if (alienGrid[r][c].chocolateCovered == true && alienGrid[r][c].alienHit(int(playerBullets[i].head.x), int(playerBullets[i].head.y), playerBullets[i].bulletWidth, playerBullets[i].bulletHeight)) {
+            alienGrid[r][c].chocolateCovered = false;
+            playerBullets[i].alive = false;
+            alienGrid[r][c].aITimer = alienGrid[r][c].aIFrames;
+          }
       }
     }
   }
 }
+  }
   
 //alien bullets v player
 
