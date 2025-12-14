@@ -18,6 +18,8 @@ int alienMoveInterval; // time between each alien movement
 int alienMoveTimer; // countdown towards alien moving.
 int padding;
 int playerMoveSpeed;
+int invincibilityFrames;
+int invincibilityTimer;
   
 int cooldownFrames; //bullet cooldown in seconds
 int cooldownTimer; //tracks how long till the next shot
@@ -38,6 +40,9 @@ void draw() {
   if (started == true && gameOver == false && roundOver == false) {
         genGameBackground();
         tank.display();
+        if (invincibilityTimer > 0) {
+          invincibilityTimer--;
+        }
         if (cooldownTimer > 0) {
           cooldownTimer--;
         }
@@ -88,9 +93,6 @@ roundWon();
     
 void keyPressed() {
   if (started == true) {
-    if(key == 'r') {
-      startGame();
-    }
      if ((key == ' ' || keyCode == ENTER) && cooldownTimer == 0) {
        makePlayerBullet();
        cooldownTimer = cooldownFrames;
@@ -115,7 +117,8 @@ void keyPressed() {
     }
     if(key == 'g' && started == true) {
       godMode();
-      stroke(0);
+      
+    
     }
   }
   
@@ -128,7 +131,7 @@ void gameRestart() {
     roundNum = 1;
     livesNum = 3;
     cooldownTimer = 0;
-    cooldownFrames = 10;
+    cooldownFrames = 20;
    
    //set boolean roundOver and gameOver to false
     isDead = false;
@@ -148,6 +151,8 @@ void gameRestart() {
     alienMoveTimer = 0;
     alienShootTimer = 0;
     alienShootFrames = 100;
+    invincibilityTimer = 0;
+    invincibilityFrames = 50;
   
     genGameBackground();
     makePlayer();
@@ -200,29 +205,34 @@ void makeAlienGrid(Alien[][] g) {
   }
   
 void genGameBackground() {
+    // 1. Background color
     background(255);
-    fill(255,0,0);
-    rect(0,450,width,height);
+    chocolateCake();
+    fill(0);
     textSize(20);
     text("score: " + score, 0,20);
     text("lives: " + livesNum, width - 100, 20);
   }
   
 void genStartBackground() {
-    background(255);
-    fill(255,0,0);
-    textSize(50);
+    textSize(40);
     rect(0,450,width,height);
-    text("cake invaders", width / 5,120);
-    text("press 's' to start!",width / 6,240);  
+    chocolateCake();
+    fill(0);
+    text("Protect your cake from the...", 20,80);
+    textSize(60);
+    text("CAKE INVADERS", 50,200);
+    text("press 's' to start!",50,300);  
   }
   
 void genLostBackground() {
     background(255);
     fill(255,0,0);
-    text("cake invaders", width / 5,120);
-    text("you lose :(",width / 6,240);
-    text("your score: " + score, width / 6, 360);
+    strawbShortcake();
+    textSize(30);
+    text("strawberries have taken over!",width / 7,120);
+    text("your score: " + score, 160, 200);
+    text("press 's' to try and reclaim your cake!", 20, 270);
 
   }
   
@@ -328,9 +338,10 @@ void checkCollisions() {
 
   for (int i = 0; i < alienBullets.length; i++) {
     if (!(alienBullets[i] == null) && alienBullets[i].alive) {
-      if (tank.playerHit(int(alienBullets[i].head.x), int(alienBullets[i].head.y), alienBullets[i].bulletWidth, alienBullets[i].bulletHeight)) {
+      if (tank.playerHit(int(alienBullets[i].head.x), int(alienBullets[i].head.y), alienBullets[i].bulletWidth, alienBullets[i].bulletHeight) && invincibilityTimer == 0) {
         alienBullets[i].alive = false; // destroy bullet
         livesNum--; // decrease player life
+        invincibilityTimer = invincibilityFrames;
         if (livesNum <= 0) {
           isDead = true;
           gameOver = true;
@@ -403,4 +414,84 @@ void roundWon() {
 
 void godMode() {
   livesNum = 1000;
+  cooldownFrames = 1;
 }
+
+void strawbShortcake() {
+  background(255, 228, 225); 
+  
+  int cakeB = 450;
+  int layerHeight = 50;
+  
+  // bottom layer
+  fill(255, 250, 250);
+  noStroke();
+  rect(0, cakeB, width, layerHeight);
+  
+  // middle layer
+  fill(255, 182, 193); 
+  rect(0, cakeB - layerHeight, width, layerHeight);
+  
+  // top layer
+  fill(255, 250, 250);
+  rect(0, cakeB - 2*layerHeight, width, layerHeight);
+  
+  // frosting
+  fill(255); 
+  rect(0, cakeB - 120, width, 20);     
+ //strawberries
+  fill(255, 0, 50); 
+  for (int i = 50; i <= width - 50; i += 60) {
+    ellipse(i, cakeB - 2 * layerHeight - 15, 12, 12);
+    //leaves
+    fill(0, 150, 0); 
+    triangle(i-3, cakeB - 2 * layerHeight - 21, 
+             i, cakeB - 2 * layerHeight - 27, 
+             i+3, cakeB - 2*layerHeight - 21);
+    fill(255, 0, 50); 
+  }
+}
+
+void chocolateCake() {
+  background(255, 228, 225); 
+  
+  int cakeB = 570;
+  int layerHeight = 60;
+//bottom layer
+  fill(139, 69, 19); 
+  noStroke();
+  rect(0, cakeB, width, layerHeight);
+//middle layer
+  fill(160, 82, 45);
+  rect(0, cakeB - layerHeight, width, layerHeight);
+//bottom layer
+  fill(139, 69, 19);
+  rect(0, cakeB - 2*layerHeight, width, layerHeight);
+  
+  fill(205, 133, 63);
+  //chocolate frosting
+  rect(0, 440, width, 20);
+ 
+  
+  //sprinkles!!
+  for (int y = (int)(cakeB - 2*layerHeight); y <= (int)(cakeB + layerHeight); y += 15) {
+    for (int x = 20; x <= width - 20; x += 20) {
+      if ((x/20 + y/15) % 5 == 0) fill(255, 0, 0);     
+      else if ((x/20 + y/15) % 5 == 1) { 
+      fill(0, 255, 0);
+      }
+      else if ((x/20 + y/15) % 5 == 2) {
+        fill(0, 0, 255);  
+      }
+      else if ((x/20 + y/15) % 5 == 3) {
+        fill(255, 255, 0);
+      }
+      else {
+        fill(255, 105, 180); 
+      }
+      ellipse(x, y, 5, 5 / 2);
+    }
+  }
+  
+}
+  

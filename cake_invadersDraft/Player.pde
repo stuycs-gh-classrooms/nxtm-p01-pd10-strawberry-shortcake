@@ -34,10 +34,16 @@ class Player {
   }
   
   void display() {
-    fill(0);
-    rect(position.x,position.y + playerHeight/2,playerWidth,playerHeight / 2);  
-    rect(position.x + (playerWidth / 2) - 3, position.y + 5, 6, playerHeight / 2);
-  }
+   
+    fill(255, 250, 250);
+    noStroke();
+    rect(position.x, position.y, playerWidth, playerHeight, 5);
+    fill(255, 140, 0);     
+    ellipse(position.x + playerWidth/2, position.y - 8, 10, 15);
+    fill(255, 215, 0); 
+    ellipse(position.x + playerWidth/2, position.y - 8, 6, 10);
+    }
+  
   
   void move(int direction) { 
     if (direction == 0) { //left

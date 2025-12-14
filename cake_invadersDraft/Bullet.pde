@@ -5,7 +5,6 @@ class Bullet {
   int bulletHeight; // how long the bullet is.
   int bulletWidth; // how wide the bullet is.
   boolean alive; // set to false once the bullet hits something or goes offscreen.
-  color bColor; // color of the bullet
   
   Bullet(PVector h, int type) {
     this.head = new PVector(h.x,h.y);
@@ -14,7 +13,7 @@ class Bullet {
     alive = true;
     bulletHeight = 10;
     bulletWidth = 4;
-    bColor = randomColor();
+
   }
 
   boolean hitsPlayer(Player p) {
@@ -33,24 +32,18 @@ class Bullet {
     return head.x < x + w && head.x + bulletWidth > x && head.y < y + h && head.y + bulletHeight > y; 
   }
   
-  int rand () {
-    return int(random(0,255));
-  }
-  
-  color randomColor () {
-    return (color(rand(),rand(),rand()));    
-  }
-  
   void display () {
     if (bulletType == 1) {
-    fill(bColor);
-    noStroke();
-    rect(head.x,head.y, bulletWidth, bulletHeight);    
+    noStroke();  
+    fill(255, 140, 0); 
+    ellipse(head.x + bulletWidth/2, head.y - 8, 10, 15);
+    fill(255, 215, 0); 
+    ellipse(head.x + bulletWidth/2, head.y - 8, 6, 10);
     }
     if (bulletType == 0) {
       fill(255, 200, 0);
       noStroke();
-      ellipse(head.x, head.y, 5, 6);
+      ellipse(head.x, head.y, 10, 12);
     }
   }
   
@@ -59,7 +52,7 @@ class Bullet {
     head.y = head.y - bulletSpeed;
   }
   if (bulletType == 0) { // alienBullet
-    head.y = head.y + bulletSpeed / 3;
+    head.y = head.y + bulletSpeed / 4;
 
   }
   }
