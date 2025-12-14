@@ -20,9 +20,7 @@ class Alien {
   
   void display() {
   if(alive) {
-    fill(0);
-    rect(position.x,position.y,alienWidth,alienHeight);  
-    
+    drawStrawberry(int(position.x),int(position.y));    
   }
   }
   
@@ -36,5 +34,31 @@ class Alien {
     if (direction == 2) { // down
       position.y = position.y + moveSpeed;
     }
+}
+void drawStrawberry(int x, int y) {
+int w = alienWidth;
+int h = alienHeight;
+//red stuff
+  fill(200, 0, 0);
+  ellipse(x + w/2, y + h/2 + 2, w, h); 
+
+//stem and leaves
+  fill(0, 150, 0); 
+  noStroke();
+  rect(x + w/2 - 1, y - 5, 4, 10); 
+  triangle(x + 5, y + 6, x + 15, y + 6, x + 10, y - 2);
+  triangle(x + 15, y + 6, x + 25, y + 6, x + 20, y - 2);
+  triangle(x + 9, y + 8, x + 15, y + 3, x + 21, y + 8);
+ 
+//seeds
+  fill(255, 200, 0); 
+  ellipse(x + 8, y + 15, 2, 2);
+  ellipse(x + 22, y + 15, 2, 2);
+  ellipse(x + 15, y + 19, 2, 2);
+  ellipse(x + 5, y + 21, 2, 2);
+  ellipse(x + 25, y + 21, 2, 2);
+  ellipse(x + 10, y + 25, 2, 2);
+  ellipse(x + 20, y + 25, 2, 2);
+  ellipse(x + 15, y + 28, 2, 2);
 }
 }

@@ -35,9 +35,7 @@ void setup() {
   }
   
 void draw() {
-  if (started == true) {
-    if (gameOver == false) {
-      if (roundOver == false) {
+  if (started == true && gameOver == false && roundOver == false) {
         genGameBackground();
         tank.display();
         if (cooldownTimer > 0) {
@@ -46,27 +44,28 @@ void draw() {
         if (alienShootTimer > 0) {
           alienShootTimer--;
         }
+        makeAlienBullet();
       if (!(playerBullets == null)) {  //display and move playerBullets;
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < playerBullets.length; i++){
         if (!(playerBullets[i] == null) && playerBullets[i].alive) {
           playerBullets[i].move();
           playerBullets[i].display();
        
         }
-        bulletDespawner();
         }
+      }
         if (!(alienBullets == null)) {  //display and move alienBullets;
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < alienBullets.length; i++){
         if (!(alienBullets[i] == null) && alienBullets[i].alive) {
           alienBullets[i].move();
-          alienBullets[i].display();
-       
-        }
-        bulletDespawner();
+          alienBullets[i].display();       
+        }       
         }
       }
       
-      if (alienGrid != null) { //display and move aliens
+      bulletDespawner();
+      
+      if (!(alienGrid == null)) { //display and move aliens
         alienMoveTimer++;
         if (alienMoveTimer >= alienMoveInterval) {
           moveAlienGrid();
@@ -81,14 +80,12 @@ void draw() {
     }
   }
 }
-      
+         
 checkCollisions();
-      }            
+roundWon();
       }
     } 
-}
-}
-
+    
 void keyPressed() {
   if (started == true) {
     if(key == 'r') {
@@ -116,6 +113,10 @@ void keyPressed() {
       started = true;
       startGame();
     }
+    if(key == 'g' && started == true) {
+      godMode();
+      stroke(0);
+    }
   }
   
 void gameRestart() {
@@ -135,7 +136,7 @@ void gameRestart() {
     gameOver = false;
     
     playerBullets = new Bullet[100];
-    alienBullets = new Bullet[100];
+    alienBullets = new Bullet[5];
   
     alienHeight = 30;
     alienWidth = 30;
@@ -168,22 +169,30 @@ void makePlayerBullet() {
     }
     
 void makeAlienBullet() { //%chance for an alien to spawn a bullet.
-     int index = findAvailableIndex(playerBullets);
+int rand = int(random(1,alienGrid.length * (2 * alienGrid.length) + 10));
+if (rand == 1) {
+     int index = findAvailableIndex(alienBullets);
     if (index != -1) {
-      alienBullets[index] = new Bullet(new PVector(Alien[i].position.x + (Alien[i].playerWidth / 2), Alien[i].position.y), 1);
+      int r = int(random(0,alienGrid.length));
+      int c = int(random(0,alienGrid[0].length));
+      if (!(alienGrid[r][c] == null) && alienGrid[r][c].alive) {
+      alienBullets[index] = new Bullet(new PVector (alienGrid[r][c].position.x + (alienGrid[r][c].alienWidth / 2), alienGrid[r][c].position.y + alienGrid[r][c].alienHeight), 0);
     }
     }
+    }
+}
+
     
   
 void makeAlienGrid(Alien[][] g) {
   float startX = padding;     
-  float startY = padding;
+  float startY = 30 + (30 * (roundNum / 2));
 
   for (int r = 0; r < g.length; r++) {
     for (int c = 0; c < g[0].length; c++) {
 
       float x = startX + c * (alienWidth + 5); 
-      float y = startY + r * (alienHeight + 3);
+      float y = startY + r * (alienHeight + 10);
 
       g[r][c] = new Alien(new PVector(x, y), alienWidth, alienHeight);    
     }
@@ -205,18 +214,20 @@ void genStartBackground() {
     textSize(50);
     rect(0,450,width,height);
     text("cake invaders", width / 5,120);
-    text("press 's' to start!",width / 6,240);
-    
+    text("press 's' to start!",width / 6,240);  
   }
   
 void genLostBackground() {
     background(255);
     fill(255,0,0);
-    rect(0,450,width,height);
+    text("cake invaders", width / 5,120);
+    text("you lose :(",width / 6,240);
+    text("your score: " + score, width / 6, 360);
+
   }
   
-int findAvailableIndex(Bullet[] b) { // finds the first available index.
-  for (int i = 0; i < 100; i++) { // checks every index in bs.
+int findAvailableIndex(Bullet[] b) { // finds the first available index for bullet.
+  for (int i = 0; i < b.length; i++) { // checks every index in bs.
     if (b[i] == null) { // if there is nothing, then return the index number
       return i;
     }
@@ -224,25 +235,35 @@ int findAvailableIndex(Bullet[] b) { // finds the first available index.
   return -1; // if there is not something return -1
 }
 
+int findAvailableIndex(Alien[][] g) { // finds the first available index for alien.
+  for (int i = 0; i < g.length; i++) { // checks every index in bs.
+    if (g[i] == null) { // if there is nothing, then return the index number
+      return i;
+    }
+  }
+  return -1; // if there is not something return -1
+}
+
 void bulletDespawner() { //despawns the bullet once it goes offscreen 
-  if (findAvailableIndex(playerBullets) == -1) {
   for (int i = 0; i < playerBullets.length; i++) {
-  if (playerBullets[i].head.y < 0) {
+  if(!(playerBullets[i] == null)) {
+  if (playerBullets[i].head.y < 0 || playerBullets[i].alive == false) {
     playerBullets[i] = null;
     println(i);
   }
   }
-  }
-  if (findAvailableIndex(alienBullets) == -1) {
+  } 
   for (int i = 0; i < alienBullets.length; i++) {
-  if (alienBullets[i].head.y > height) { 
-    alienBullets[i] = null;
-    println(i);
+    if(!(alienBullets[i] == null)) {
+    if (alienBullets[i].head.y > height || alienBullets[i].alive == false) {
+      alienBullets[i] = null;
+      println("alien" + i);
+    }
   }
-  }
-  }
+    
+}
+}
   
-  }
 
 void moveAlienGrid() {
   if (alienGrid == null) {
@@ -294,7 +315,7 @@ void checkCollisions() {
           if (alienGrid[r][c] != null && alienGrid[r][c].alive) { // checks if the alien in that index is alive and not null
             if (alienGrid[r][c].alienHit(int(playerBullets[i].head.x), int(playerBullets[i].head.y), playerBullets[i].bulletWidth, playerBullets[i].bulletHeight)) { // checks if it is hitting a playerBullet
               alienGrid[r][c].alive = false;  // kill alien
-              playerBullets[i].alive = false; // destroy bullet
+              playerBullets[i].alive = false; // kill bullet
               score += 10; // score goes up by 10! yay!
           }
         }
@@ -304,21 +325,21 @@ void checkCollisions() {
 }
   
 //alien bullets v player
-/*
+
   for (int i = 0; i < alienBullets.length; i++) {
     if (!(alienBullets[i] == null) && alienBullets[i].alive) {
-      if (tank.playerHit(alienBullets.head.x, alienBullets.head.y, alienBullets.bulletWidth, alienBullets.bulletHeight)) {
+      if (tank.playerHit(int(alienBullets[i].head.x), int(alienBullets[i].head.y), alienBullets[i].bulletWidth, alienBullets[i].bulletHeight)) {
         alienBullets[i].alive = false; // destroy bullet
-        alienBullets[i] = null;
         livesNum--; // decrease player life
         if (livesNum <= 0) {
           isDead = true;
           gameOver = true;
+          gameOver();
         }
       }
     }
   }
-  */
+
 
 /* //barrier part
   for (int i = 0; i < playerBullets.length; i++) {
@@ -343,12 +364,43 @@ void checkCollisions() {
     }
   }
 */
-}
+
+//aliens vs. ground. 
+      for (int r = 0; r < alienGrid.length; r++) { // rows
+        for (int c = 0; c < alienGrid[0].length; c++) { // columns
+          if (alienGrid[r][c] != null && alienGrid[r][c].alive) { // checks if the alien in that index is alive and not null
+          if (alienGrid[r][c].position.y + alienGrid[r][c].alienHeight >= 450) {
+            gameOver();
+          }
+        }
+      }
+    }
+    
+  }
+
+
 
 void gameOver() {
-  if (livesNum == 0) {
   started = false;
   genLostBackground();
-  
+}
+
+void roundWon() {
+  for (int r = 0; r < alienGrid.length; r++) {
+    for (int c = 0; c < alienGrid[0].length; c++) {
+      if (alienGrid[r][c].alive && !(alienGrid[r][c] == null)) {
+        return; // at least one alien still alive
+      }
+    }
   }
+  roundOver = true;
+  roundNum++;
+  livesNum++;
+  text("Round " + roundNum, width / 5, 180);
+  makeAlienGrid(alienGrid);
+  roundOver = false;  
+}
+
+void godMode() {
+  livesNum = 1000;
 }

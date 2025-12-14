@@ -48,8 +48,9 @@ class Bullet {
     rect(head.x,head.y, bulletWidth, bulletHeight);    
     }
     if (bulletType == 0) {
-      fill(255);
-      rect(head.x,head.y,bulletWidth,bulletHeight);
+      fill(255, 200, 0);
+      noStroke();
+      ellipse(head.x, head.y, 5, 6);
     }
   }
   
@@ -58,7 +59,7 @@ class Bullet {
     head.y = head.y - bulletSpeed;
   }
   if (bulletType == 0) { // alienBullet
-    head.y = head.y + bulletSpeed;
+    head.y = head.y + bulletSpeed / 3;
 
   }
   }
