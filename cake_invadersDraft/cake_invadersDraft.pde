@@ -1,36 +1,38 @@
 Player tank;
 Barrier shield;
-Alien[][] alienGrid;
+Alien[][] alienGrid; 
 Bullet[] playerBullets;
 Bullet[] alienBullets;
 
-int score;
-int livesNum;
-int roundNum;
+int score; //tracks the score
+int livesNum; //how many lives the player has
+int roundNum; //how many rounds has the player beaten
 boolean started; //tracks if the game has started or not.
   
-int alienDirection;
-int alienHeight;
-int alienWidth;
-int aRows;
-int aCols;
+int alienDirection; //the direction where the aliens are moving 0 = left 1 = right 2 = down
+int alienHeight; //length of an aliens hitbox
+int alienWidth; //width of an aliens hitbox
+int aRows; //how many rows of aliens there are
+int aCols; // how many columns of aliens there are
 int alienMoveInterval; // time between each alien movement
 int alienMoveTimer; // countdown towards alien moving.
-int padding;
-int playerMoveSpeed;
-int invincibilityFrames;
-int invincibilityTimer;
-int roundOverTimer;
-int roundOverFrames;
+int padding; //padding between the alienGrid and the wall
+int playerMoveSpeed; //how fast the player moves
+int invincibilityFrames; //how many invincibility frames the player gets
+int invincibilityTimer; //how many the invincibility frames the player has currently.
+int roundOverTimer; //how much time left that roundOver is true
+int roundOverFrames;// how long the roundOver period is
   
 int cooldownFrames; //bullet cooldown in seconds
 int cooldownTimer; //tracks how long till the next shot
-int alienShootFrames;
-int alienShootTimer;
+int alienShootFrames; //the interval at which an alien is able to shoot.
+int alienShootTimer; //the time that is left between each alien shot.
   
-boolean isDead;
-boolean roundOver;
-boolean gameOver;
+boolean isDead; //is the player dead?
+boolean roundOver; //is the round over?
+boolean gameOver; // is the game over?
+boolean gMode; //is the player in cheat mode?
+
 void setup() {
   size(500,500);
   frameRate(60);
@@ -48,7 +50,7 @@ void draw() {
     isDead = false;
   }
   }
-  if (started == true && gameOver == false && roundOver == false && isDead == false) {
+  if (started == true && gameOver == false && roundOver == false && isDead == false) { //timers
         genGameBackground();
         tank.display(isDead);
         if (invincibilityTimer > 0) {
@@ -96,49 +98,43 @@ void draw() {
     }
   }
 }
-         
-checkCollisions();
-roundWon();
-roundLost();
+checkCollisions(); //checks collisions of all objects
+roundWon(); //checks if the round is won
+roundLost(); //checks if the round is lost / player dies
       }
     } 
     
 void keyPressed() {
   if (started == true) {
-     if ((key == ' ' || keyCode == ENTER) && cooldownTimer == 0) {
+     if ((key == ' ' || keyCode == ENTER) && cooldownTimer == 0) { // space to shoot
        makePlayerBullet();
        cooldownTimer = cooldownFrames;
      }
-    if (keyCode == LEFT) {
+    if (keyCode == LEFT) { //left arrow key to move left
       tank.move(0);
       if (tank.position.x < 0) {
         tank.position.x = 0;
       }
       
     }
-    if (keyCode == RIGHT) {
+    if (keyCode == RIGHT) { // right arrow key to move right
       tank.move(1);
       if (tank.position.x > width - tank.playerWidth) {
         tank.position.x = width - tank.playerWidth;
       }
     }
   }
-    if(key == 's' && started == false) {
+    if(key == 's' && started == false) { // s to start the game
       started = true;
       startGame();
     }
-    if(key == 'g' && started == true) {
+    if(key == 'g' && started == true) { // enable god mode / cheat mode
       godMode();
-      
-    
+          
     }
   }
   
-void gameRestart() {
-    //calls startGame() 
-  }
-  
-  void startGame() {
+  void startGame() { // start the game, initializes most of the variables.
     score = 0;
     roundNum = 1;
     livesNum = 3;
@@ -172,39 +168,41 @@ void gameRestart() {
     makePlayer();
     padding = 50;
     makeAlienGrid(alienGrid);
+    gMode = false;
   }
   
-void makePlayer() {
+void makePlayer() { //instantiates the player
     for (int i = 0; i < 2; i++) {
     tank = new Player(new PVector(0,0));
     }
   }
   
-void makePlayerBullet() {
+void makePlayerBullet() { //instantiates the bullets
     int index = findAvailableIndex(playerBullets);
-    if (index != -1) {
+    if (!(index == -1) && gMode == true) { //regular bullets
+      playerBullets[index] = new Bullet(new PVector(tank.position.x + (tank.playerWidth / 2), tank.position.y), 2);
+    }
+    else if (!(index == -1)) { //godmode bullets
       playerBullets[index] = new Bullet(new PVector(tank.position.x + (tank.playerWidth / 2), tank.position.y), 1);
     }
     }
     
-void makeAlienBullet() { //%chance for an alien to spawn a bullet.
-int rand = int(random(1,alienGrid.length * (2 * alienGrid.length) + 10));
-if (rand == 1) {
+void makeAlienBullet() { //instantiates alien bullets
+int rand = int(random(1,alienGrid.length * (2 * alienGrid.length) + 10)); //chance for a bullet to be generated
+if (rand == 1) { 
      int index = findAvailableIndex(alienBullets);
-    if (index != -1) {
+    if (!(index == -1)) {
       int r = int(random(0,alienGrid.length));
       int c = int(random(0,alienGrid[0].length));
-      if (!(alienGrid[r][c] == null) && alienGrid[r][c].alive) {
+      if (!(alienGrid[r][c] == null) && alienGrid[r][c].alive) { //selects a random alien and checks if its alive, if so spawns a bullet at the aliens position.
       alienBullets[index] = new Bullet(new PVector (alienGrid[r][c].position.x + (alienGrid[r][c].alienWidth / 2), alienGrid[r][c].position.y + alienGrid[r][c].alienHeight), 0);
     }
     }
     }
 }
-
-    
   
-void makeAlienGrid(Alien[][] g) {
-  float startX = padding;     
+void makeAlienGrid(Alien[][] g) { //makes a grid of aliens
+  float startX = padding;     //padding so the aliens dont go offscreen
   float startY = 30 + (30 * (roundNum / 2));
 
   for (int r = 0; r < g.length; r++) {
@@ -218,7 +216,7 @@ void makeAlienGrid(Alien[][] g) {
   }
   }
   
-void genGameBackground() {
+void genGameBackground() { //the background of the game once it has started
     chocolateCake();
     fill(0);
     textSize(20);
@@ -226,7 +224,7 @@ void genGameBackground() {
     text("lives: " + livesNum, width - 100, 20);
   }
   
-void genStartBackground() {
+void genStartBackground() { //background of the game before it starts
     textSize(40);
     rect(0,450,width,height);
     chocolateCake();
@@ -237,7 +235,7 @@ void genStartBackground() {
     text("press 's' to start!",50,300);  
   }
   
-void genLostBackground() {
+void genLostBackground() { //background of the game when you lose.
     fill(255,0,0);
     strawbShortcake();
     textSize(30);
@@ -270,7 +268,7 @@ void bulletDespawner() { //despawns the bullet once it goes offscreen
   if(!(playerBullets[i] == null)) {
   if (playerBullets[i].head.y < 0 || playerBullets[i].alive == false) {
     playerBullets[i] = null;
-    println(i);
+//    println(i);
   }
   }
   } 
@@ -278,15 +276,14 @@ void bulletDespawner() { //despawns the bullet once it goes offscreen
     if(!(alienBullets[i] == null)) {
     if (alienBullets[i].head.y > height || alienBullets[i].alive == false) {
       alienBullets[i] = null;
-      println("alien" + i);
+//      println("alien" + i);
     }
   }
     
 }
 }
   
-
-void moveAlienGrid() {
+void moveAlienGrid() { //moves the alien grid
   if (alienGrid == null) {
     return;
   }
@@ -323,7 +320,7 @@ void moveAlienGrid() {
     }
   } 
     
-  // If hit edge, reverse direction
+  // If hits an edge, reverse direction
   if (hitEdge) alienDirection *= -1;
 }
 
@@ -337,7 +334,7 @@ void checkCollisions() {
             if (alienGrid[r][c].alienHit(int(playerBullets[i].head.x), int(playerBullets[i].head.y), playerBullets[i].bulletWidth, playerBullets[i].bulletHeight)) { // checks if it is hitting a playerBullet
               alienGrid[r][c].alive = false;  // kill alien
               playerBullets[i].alive = false; // kill bullet
-              score += 10; // score goes up by 10! yay!
+              score += 30; // score goes up!
           }
         }
       }
@@ -447,11 +444,12 @@ void roundLost() {
     
 
 void godMode() {
+  gMode = true;
   livesNum = 1000;
   cooldownFrames = 1;
 }
 
-void strawbShortcake() {
+void strawbShortcake() { //strawberry shortcake
   background(255, 228, 225); 
   
   int cakeB = 450;
@@ -486,15 +484,11 @@ void strawbShortcake() {
   }
 }
 
-void chocolateCake() {
+void chocolateCake() {//a chocolate cake.
   background(255, 228, 225); 
-  
+  noStroke();
   int cakeB = 570;
   int layerHeight = 60;
-//bottom layer
-  fill(139, 69, 19); 
-  noStroke();
-  rect(0, cakeB, width, layerHeight);
 //middle layer
   fill(160, 82, 45);
   rect(0, cakeB - layerHeight, width, layerHeight);
@@ -528,4 +522,6 @@ void chocolateCake() {
   }
   
 }
+  
+
   

@@ -6,7 +6,7 @@ class Alien {
   boolean alive; // is the alien alive?
   
   
-  Alien(PVector p, int w, int h) {
+  Alien(PVector p, int h, int w) {
     this.moveSpeed = 2;
     this.position = new PVector(p.x,p.y);
     this.alienHeight = h;
