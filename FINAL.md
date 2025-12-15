@@ -45,4 +45,6 @@ Feedback changes
 changes during programming
 - aliens turned into strawberries
 - the player turned into a candle
-- 
+- the collisionCheck method used hitboxes created by each of the classes
+- invincibility frames
+- lots and lots more variables.
